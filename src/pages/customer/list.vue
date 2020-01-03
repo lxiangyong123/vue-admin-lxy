@@ -18,14 +18,13 @@
     </el-table>
     <!-- /表格结束 -->
     <!-- 分页开始 -->
-    <el-pagination layout="prev, pager, next" :total="50"></el-pagination>
+    <!-- <el-pagination layout="prev, pager, next" :total="50"></el-pagination> -->
     <!-- /分页结束 -->
     <!-- 模态框 -->
     <el-dialog
       title="录入顾客信息"
       :visible.sync="visible"
       width="60%">
-        ---{{form}}
       <el-form :model="form" label-width="80px">
         <el-form-item label="用户名">
           <el-input v-model="form.username"></el-input>
@@ -40,7 +39,6 @@
           <el-input v-model="form.telephone"></el-input>
         </el-form-item>
       </el-form>
-
       <span slot="footer" class="dialog-footer">
         <el-button size="small" @click="closeModalHandler">取 消</el-button>
         <el-button size="small" type="primary" @click="submitHandler">确 定</el-button>
@@ -97,26 +95,22 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        //调用后台接口，完成删除操作
-      let url = "http://localhost:6677//customer/deleteById?id="+id;
-      request.get(url).then((response)=>{
-        //1.刷新数据
-        this.loadData();
-        //2.提示结果
+        //调用后台借口,完成删除操作
+        let url="http://localhost:6677/customer/deleteById?id="+id;
+        request.get(url).then((response)=>{
+          //刷新数据
+          this.loadData();
+          //提示结果
           this.$message({
-            type: 'success',
-            message: response.message
-          });
-        })
-        this.$message({
           type: 'success',
-          message: '删除成功!'
+          message: response.message
         });
-      })
-      
+        })
+
+      })      
     },
     toUpdateHandler(row){
-      //模态框表单中显示当前行的信息
+      //模态框的表单中显示出当前的信息
       this.form=row;
       this.visible = true;
     },
